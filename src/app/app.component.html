@@ -1,20 +1,78 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+<div class="container">
+  <h1 class="blockquote text-center">Countries of the World</h1>
+  <ng-container *ngIf="countries$ | async as items; else loadingOrError">
+    <div class="row" *ngFor="let item of items; index as i; let even = even; let odd = odd;">
+      <div class="col">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="card-title">{{ i + 1 }} . {{ item.name | titlecase }}</h5>
+          </div>
+          <div class="card-body">
+            <img src="{{item.flag}}" alt="{{item.name}}" class="img-thumbnail">
+            <h5 class="card-title">Capital : {{ item.capital | titlecase }}</h5>
+            <dl class="row">
+              <dt class="col-sm-3">Region</dt>
+              <dd class="col-sm-9">
+                <p>{{ item.region }} ({{ item.subregion }})</p>
+              </dd>
+              <dt class="col-sm-3">Area</dt>
+              <dd class="col-sm-9">
+                <p>{{item.area}}</p>
+              </dd>
+              <dt class="col-sm-3">Population</dt>
+              <dd class="col-sm-9">
+                <p>{{item.population}}</p>
+              </dd>
+              <dt class="col-sm-3">Co-ordinates</dt>
+              <dd class="col-sm-9">
+                <p>{{ item.latlng[0] }}, {{ item.latlng[1]}}</p>
+              </dd>
+              <dt class="col-sm-3">Timezones</dt>
+              <dd class="col-sm-9">
+                <p *ngFor="let timezone of item.timezones">
+                  {{ timezone }}
+                </p>
+              </dd>
+              <dt class="col-sm-3">Borders</dt>
+              <dd class="col-sm-9">
+                <div *ngIf="!item.borders || item.borders.length === 0">
+                  <p>No borders</p>
+                </div>
+                <div *ngIf="item.borders || item.borders.length > 0">
+                  <ul class="list-inline">
+                    <li class="list-inline-item" *ngFor="let border of item.borders">
+                      {{ border }}
+                    </li>
+                  </ul>
+                </div>
+              </dd>
+              <dt class="col-sm-3">Languages</dt>
+              <dd class="col-sm-9">
+                <ul class="list-group" *ngFor="let languages of item.languages; let j = index">
+                  <li class="list-group-item">
+                    {{ languages.name }} ({{ languages.nativeName }})
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+            <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #loadingOrError>
+    <ng-container *ngIf="errorObject; else loading">
+      <div class="col-12 text-center">
+        <div class="alert alert-danger">
+          {{ errorObject }}
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #loading>
+      <div class="col-12 text-center">
+        Loading ...
+      </div>
+    </ng-template>
+  </ng-template>
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
-
